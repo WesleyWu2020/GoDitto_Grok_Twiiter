@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grok-x-lead-monitor"
+version = "0.1.0"
+description = "Scheduled Grok-powered X lead monitor"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx>=0.27,<0.28",
+]
+
+[project.scripts]
+grok-x-lead-monitor = "grok_x_lead_monitor.main:cli"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
