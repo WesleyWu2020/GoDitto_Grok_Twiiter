@@ -7,6 +7,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from grok_x_lead_monitor.config import Settings, resolve_window
+from grok_x_lead_monitor.diagnostics import diagnose_query_results, format_query_diagnostics
 from grok_x_lead_monitor.exporter import write_markdown_report
 from grok_x_lead_monitor.filters import is_valid_candidate
 from grok_x_lead_monitor.grok_client import GrokSearchClient
@@ -40,7 +41,7 @@ def _build_client(settings: Settings, client: GrokSearchClientProtocol | None) -
         return client
     if not settings.grok_api_key:
         raise ValueError("GROK_API_KEY is required when no client is injected")
-    return GrokSearchClient(api_key=settings.grok_api_key)
+    return GrokSearchClient(api_key=settings.grok_api_key, model=settings.grok_model)
 
 
 def run_pipeline(
@@ -72,10 +73,18 @@ def run_pipeline(
             print(f"[WARN] Grok query failed: {query_spec.query} ({exc})", file=sys.stderr)
             continue
 
+        diagnostic_report = diagnose_query_results(
+            query=query_spec.query,
+            candidates=candidates,
+            high_priority_score=settings.high_priority_score,
+            min_intent_score=settings.min_intent_score,
+        )
+        print(format_query_diagnostics(diagnostic_report), file=sys.stderr)
+
         for candidate in candidates:
             if not is_valid_candidate(candidate):
                 continue
-            score, _, summary = score_candidate(candidate, high_threshold=settings.high_priority_score)
+            score, _, summary, reason = score_candidate(candidate, high_threshold=settings.high_priority_score)
             if score < settings.min_intent_score:
                 continue
             original_url = resolve_original_url(candidate.citations)
@@ -88,6 +97,7 @@ def run_pipeline(
                     pain_point_tag=infer_pain_point_tag(candidate.tweet_text),
                     intent_score_10=to_intent_score_10(score),
                     tweet_summary=summary,
+                    intent_reason=reason,
                     original_url=original_url,
                     tweet_created_at=candidate.tweet_created_at,
                 )

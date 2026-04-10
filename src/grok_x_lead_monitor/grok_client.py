@@ -23,11 +23,16 @@ SYSTEM_PROMPT = (
 )
 
 
-def build_grok_payload(query: str, start_iso: str, end_iso: str) -> dict[str, Any]:
+def build_grok_payload(
+    query: str,
+    start_iso: str,
+    end_iso: str,
+    model: str = "grok-4-1-fast-reasoning",
+) -> dict[str, Any]:
     from_date = start_iso[:10]
     to_date = end_iso[:10]
     return {
-        "model": "grok-4.20-reasoning",
+        "model": model,
         "input": [
             {
                 "role": "system",
@@ -150,9 +155,15 @@ def parse_candidate_response(
 
 
 class GrokSearchClient:
-    def __init__(self, api_key: str, http_client: httpx.Client | None = None):
+    def __init__(
+        self,
+        api_key: str,
+        http_client: httpx.Client | None = None,
+        model: str = "grok-4-1-fast-reasoning",
+    ):
         self.api_key = api_key
         self._http_client = http_client or httpx.Client()
+        self.model = model
 
     def search(self, query: str, start_iso: str, end_iso: str) -> list[Candidate]:
         last_exc: Exception | None = None
@@ -166,7 +177,7 @@ class GrokSearchClient:
                         # Avoid flaky keep-alive connections in some proxy/network paths.
                         "Connection": "close",
                     },
-                    json=build_grok_payload(query, start_iso, end_iso),
+                    json=build_grok_payload(query, start_iso, end_iso, model=self.model),
                     timeout=45.0,
                 )
                 status_code = getattr(response, "status_code", 200)

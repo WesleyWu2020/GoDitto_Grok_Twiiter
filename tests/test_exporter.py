@@ -18,6 +18,7 @@ def test_write_markdown_report_writes_sorted_rows(tmp_path: Path):
             pain_point_tag="Foot Pain",
             intent_score_10=7,
             tweet_summary="Needs better shoes.",
+            intent_reason="foot pain plus current-shoe dissatisfaction",
             original_url="https://x.com/low/status/2",
             tweet_created_at=datetime(2026, 4, 8, 1, 0, tzinfo=ZoneInfo("UTC")),
         ),
@@ -26,6 +27,7 @@ def test_write_markdown_report_writes_sorted_rows(tmp_path: Path):
             pain_point_tag="Standing All Day",
             intent_score_10=10,
             tweet_summary="Needs comfortable shoes urgently.",
+            intent_reason="explicit recommendation request plus work pain",
             original_url="https://x.com/high/status/1",
             tweet_created_at=datetime(2026, 4, 8, 2, 0, tzinfo=ZoneInfo("UTC")),
         ),
@@ -33,7 +35,9 @@ def test_write_markdown_report_writes_sorted_rows(tmp_path: Path):
     output_path = write_markdown_report(tmp_path, "2026-04-08", leads)
     content = output_path.read_text()
     assert output_path == tmp_path / "2026-04-08.md"
-    assert content.splitlines()[2].startswith("| @high | Needs comfortable shoes urgently. | Standing All Day | 10 |")
+    assert content.splitlines()[2].startswith(
+        "| @high | Needs comfortable shoes urgently. | Standing All Day | 10 | explicit recommendation request plus work pain |"
+    )
 
 
 def test_render_markdown_table_uses_deterministic_tie_breakers():
@@ -43,6 +47,7 @@ def test_render_markdown_table_uses_deterministic_tie_breakers():
             pain_point_tag="Foot Pain",
             intent_score_10=8,
             tweet_summary="First tie row.",
+            intent_reason="first tie reason",
             original_url="https://x.com/zeta/status/2",
             tweet_created_at=datetime(2026, 4, 8, 1, 0, tzinfo=ZoneInfo("UTC")),
         ),
@@ -51,6 +56,7 @@ def test_render_markdown_table_uses_deterministic_tie_breakers():
             pain_point_tag="Foot Pain",
             intent_score_10=8,
             tweet_summary="Second tie row.",
+            intent_reason="second tie reason",
             original_url="https://x.com/alpha/status/1",
             tweet_created_at=datetime(2026, 4, 8, 1, 0, tzinfo=ZoneInfo("UTC")),
         ),
@@ -60,5 +66,5 @@ def test_render_markdown_table_uses_deterministic_tie_breakers():
     zeta_cells = [cell.strip() for cell in rendered[3].strip("|").split("|")]
     assert alpha_cells[0] == "@alpha"
     assert zeta_cells[0] == "@zeta"
-    assert alpha_cells[4] == "https://x.com/alpha/status/1"
-    assert zeta_cells[4] == "https://x.com/zeta/status/2"
+    assert alpha_cells[5] == "https://x.com/alpha/status/1"
+    assert zeta_cells[5] == "https://x.com/zeta/status/2"

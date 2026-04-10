@@ -5,8 +5,8 @@ from pathlib import Path
 from grok_x_lead_monitor.models import LeadRecord
 
 
-HEADER = "| User Handle (@username) | Tweet Content Summary | Pain Point Tag | Intent Score (1-10) | Exact Tweet URL |"
-SEPARATOR = "| --- | --- | --- | --- | --- |"
+HEADER = "| User Handle (@username) | Tweet Content Summary | Pain Point Tag | Intent Score (1-10) | Intent Reason | Exact Tweet URL |"
+SEPARATOR = "| --- | --- | --- | --- | --- | --- |"
 
 
 def _escape_cell(value: str) -> str:
@@ -27,7 +27,8 @@ def render_markdown_table(leads: list[LeadRecord]) -> str:
     for lead in ordered:
         lines.append(
             f"| @{_escape_cell(lead.username)} | {_escape_cell(lead.tweet_summary)} | "
-            f"{_escape_cell(lead.pain_point_tag)} | {lead.intent_score_10} | {_escape_cell(lead.original_url)} |"
+            f"{_escape_cell(lead.pain_point_tag)} | {lead.intent_score_10} | "
+            f"{_escape_cell(lead.intent_reason)} | {_escape_cell(lead.original_url)} |"
         )
     return "\n".join(lines)
 

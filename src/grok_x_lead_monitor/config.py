@@ -10,6 +10,7 @@ from zoneinfo import ZoneInfo
 @dataclass(frozen=True)
 class Settings:
     grok_api_key: str | None
+    grok_model: str
     default_timezone: str
     default_window_mode: str
     relative_lookback_hours: int
@@ -22,6 +23,7 @@ class Settings:
     def from_env(cls, env: Mapping[str, str]) -> "Settings":
         return cls(
             grok_api_key=env.get("GROK_API_KEY"),
+            grok_model=env.get("GROK_MODEL", "grok-4-1-fast-reasoning"),
             default_timezone=env.get("DEFAULT_TIMEZONE", "Asia/Shanghai"),
             default_window_mode=env.get("DEFAULT_WINDOW_MODE", "relative"),
             relative_lookback_hours=int(env.get("RELATIVE_LOOKBACK_HOURS", "168")),

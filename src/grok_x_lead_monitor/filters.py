@@ -48,6 +48,14 @@ FIRST_PERSON_CONSUMER_HINTS = (
     " recommend",
     " recommendations",
     " recommendation",
+    " anyone have suggestions ",
+    " anyone have recs ",
+    " what shoes should i ",
+    " what are some good ",
+    " wondering if this would help ",
+    " wanting to try ",
+    " best walking shoes ",
+    " best shoes for ",
 )
 
 RELEVANCE_HINTS = (
@@ -56,6 +64,11 @@ RELEVANCE_HINTS = (
     "shoe",
     "shoes",
     "plantar",
+    "wide feet",
+    "wide foot",
+    "extra wide",
+    "narrow fit",
+    "narrow feet",
     "comfortable",
     "walking all day",
     "standing all day",

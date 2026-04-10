@@ -13,6 +13,7 @@ from grok_x_lead_monitor.models import Candidate
 
 def test_settings_defaults_match_spec():
     settings = Settings.from_env({})
+    assert settings.grok_model == "grok-4-1-fast-reasoning"
     assert settings.default_timezone == "Asia/Shanghai"
     assert settings.default_window_mode == "relative"
     assert settings.relative_lookback_hours == 168
@@ -50,6 +51,11 @@ def test_settings_reads_relative_lookback_hours_from_env():
     assert settings.relative_lookback_hours == 12
 
 
+def test_settings_reads_grok_model_from_env():
+    settings = Settings.from_env({"GROK_MODEL": "grok-4.20-reasoning"})
+    assert settings.grok_model == "grok-4.20-reasoning"
+
+
 def test_run_pipeline_uses_relative_lookback_hours_from_env():
     class WindowClient:
         def __init__(self):
@@ -76,6 +82,7 @@ def test_build_grok_payload_requires_x_search_instructions():
         start_iso="2026-04-08T00:00:00+08:00",
         end_iso="2026-04-08T23:59:59+08:00",
     )
+    assert payload["model"] == "grok-4-1-fast-reasoning"
     instruction = payload["input"][0]["content"]
     assert "x_search" in instruction
     assert "citation metadata" in instruction
@@ -265,7 +272,53 @@ def test_run_pipeline_filters_scores_and_exports(tmp_path: Path):
     assert "| @high |" in content
     assert "| Foot Pain |" in content
     assert "| 10 |" in content
+    assert "explicit recommendation request" in content
     assert "spam" not in content
+
+
+def test_run_pipeline_emits_query_diagnostics_to_stderr(tmp_path: Path, capsys):
+    class DiagnosticClient:
+        def search(self, query, start_iso, end_iso):
+            if query == "feet hurt standing all day":
+                return [
+                    Candidate(
+                        username="strong",
+                        tweet_text="My plantar fasciitis is brutal after every shift and I need comfortable shoe recommendations asap.",
+                        tweet_created_at=datetime(2026, 4, 8, 2, 0, tzinfo=ZoneInfo("UTC")),
+                        query_used=query,
+                        citations=[{"url": "https://x.com/strong/status/111"}],
+                    ),
+                    Candidate(
+                        username="weak",
+                        tweet_text="Need shoes because plantar fasciitis is annoying.",
+                        tweet_created_at=datetime(2026, 4, 8, 3, 0, tzinfo=ZoneInfo("UTC")),
+                        query_used=query,
+                        citations=[{"url": "https://x.com/weak/status/222"}],
+                    ),
+                    Candidate(
+                        username="dup",
+                        tweet_text="My plantar fasciitis is brutal after every shift and I need comfortable shoe recommendations asap.",
+                        tweet_created_at=datetime(2026, 4, 8, 4, 0, tzinfo=ZoneInfo("UTC")),
+                        query_used=query,
+                        citations=[{"url": "https://x.com/strong/status/111"}],
+                    ),
+                ]
+            return []
+
+    run_pipeline(
+        now=datetime(2026, 4, 8, 10, 30, tzinfo=ZoneInfo("Asia/Shanghai")),
+        env={"DEFAULT_OUTPUT_DIR": str(tmp_path)},
+        client=DiagnosticClient(),
+    )
+
+    captured = capsys.readouterr()
+    assert (
+        "[DIAG] Query='feet hurt standing all day' raw=3 valid=2 passing_score=2 unique_url=1"
+        in captured.err
+    )
+    assert "sample@strong filters=True score=95 passes_score=True deduped=False" in captured.err
+    assert "sample@weak filters=False score=65 passes_score=False deduped=False" in captured.err
+    assert "sample@dup filters=True score=95 passes_score=True deduped=True" in captured.err
 
 
 def test_run_pipeline_continues_when_one_query_fails(tmp_path: Path):
@@ -310,8 +363,8 @@ def test_run_pipeline_writes_header_only_for_empty_results(tmp_path: Path):
         client=EmptyClient(),
     )
     assert output_path.read_text().splitlines() == [
-        "| User Handle (@username) | Tweet Content Summary | Pain Point Tag | Intent Score (1-10) | Exact Tweet URL |",
-        "| --- | --- | --- | --- | --- |",
+        "| User Handle (@username) | Tweet Content Summary | Pain Point Tag | Intent Score (1-10) | Intent Reason | Exact Tweet URL |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
 
 

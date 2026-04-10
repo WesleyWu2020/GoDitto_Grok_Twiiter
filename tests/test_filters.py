@@ -33,3 +33,8 @@ def test_filter_rejects_obvious_non_consumer_commentary():
 def test_filter_keeps_authentic_consumer_request():
     candidate = build_candidate("My feet hurt after every shift. Need comfortable shoes recommendations.")
     assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_question_style_request_for_target_customer():
+    candidate = build_candidate("Anyone have suggestions on best walking shoes for wide feet that will make walking easier?")
+    assert is_valid_candidate(candidate) is True

@@ -28,5 +28,6 @@ class LeadRecord:
     pain_point_tag: str
     intent_score_10: int
     tweet_summary: str
+    intent_reason: str
     original_url: str
     tweet_created_at: datetime
