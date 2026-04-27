@@ -1,0 +1,240 @@
+{
+  "summary": {
+    "total_rows": 23,
+    "kept_rows": 8,
+    "dropped_rows": 15,
+    "duplicate_rows": 2
+  },
+  "records": [
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T05:47:37+00:00",
+      "title": "",
+      "content": "I think I definitely have plantar fasciitis. My foot hurts so bad.",
+      "source": "shrimpsquiggles",
+      "post_url": "https://x.com/shrimpsquiggles/status/2044653922967834830",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T14:46:04+00:00",
+      "title": "",
+      "content": "Where are we getting cheap ish summer sandals that are comfy and wide toe box friendly?",
+      "source": "agreatdayinnc",
+      "post_url": "https://x.com/agreatdayinnc/status/2044789428455969149",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-17T02:26:09+00:00",
+      "title": "",
+      "content": "Wide toe box time https://t.co/5UGsqjXhAi",
+      "source": "rustbelt_",
+      "post_url": "https://x.com/rustbelt_/status/2044965607787921729",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-14T13:15:37+00:00",
+      "title": "",
+      "content": "Dealing With Swollen Feet https://t.co/f5TJGtpIwj https://t.co/sKJyfzmNQE",
+      "source": "vincentvessdpm",
+      "post_url": "https://x.com/vincentvessdpm/status/2044041888974680437",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-15T16:26:13+00:00",
+      "title": "",
+      "content": "Wow at supermarket enjoying swollen feet https://t.co/V3l8YAFSOo",
+      "source": "NBieleu19735",
+      "post_url": "https://x.com/NBieleu19735/status/2044452242816737612",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-20T00:00:31+00:00",
+      "title": "",
+      "content": "i cant even walk for more than 10k steps because i have like plantar fasciitis this shit is ruining my life",
+      "source": "ranuova",
+      "post_url": "https://x.com/ranuova/status/2046016121124569511",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-20T21:12:43+00:00",
+      "title": "",
+      "content": "how do ppl walk for like 5+ hours and not get foot pain....how do u not have like HORRIBLE plantar fasciitis?? i've been able to reduce mine but like i only do 10k steps which is ~ 1 hour and 40 mins",
+      "source": "cherrysdiaryyyy",
+      "post_url": "https://x.com/cherrysdiaryyyy/status/2046336284570849774",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-17T17:17:15+00:00",
+      "title": "",
+      "content": "wondering if i should go for a brisk walk and light jog tmr morning…tho lately i feel like my left bottom heel is flaring up w that shitty plantar fasciitis again 🫩",
+      "source": "_kimmina96",
+      "post_url": "https://x.com/_kimmina96/status/2045189863843217898",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-19T12:46:42+00:00",
+      "title": "",
+      "content": "Plantar fasciitis, numerous ankle sprains, and torn achilles on the same foot obviously I need to give it up for I have no foot😭",
+      "source": "Quis_Steezy",
+      "post_url": "https://x.com/Quis_Steezy/status/2045846549700227186",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-15T12:37:30+00:00",
+      "title": "",
+      "content": "I've got a heel spur, or plantar fasciitis, or combination of the two. Not overly painful, but I don't want to aggravate it either. No running today, maybe tomorrow.",
+      "source": "docreport",
+      "post_url": "https://x.com/docreport/status/2044394683242029312",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-19T16:00:26+00:00",
+      "title": "",
+      "content": "My son Louis is 26. He has ME/CFS and hEDS — conditions that make every step cost him enormously. He can walk, but his body pays for it. His energy is finite. His joints unstable. His walker throws him to the ground.",
+      "source": "Jesse",
+      "post_url": "https://x.com/Jesse/status/2045895305581707767",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-14T18:15:35+00:00",
+      "title": "",
+      "content": "Dealing With Swollen Feet https://t.co/ZYhalqethl https://t.co/ZLlijI9MdU",
+      "source": "romeofootclinic",
+      "post_url": "https://x.com/romeofootclinic/status/2044117378020307415",
+      "decision": "drop",
+      "reason": "duplicate_normalized_content"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-14T13:30:35+00:00",
+      "title": "",
+      "content": "Dealing With Swollen Feet https://t.co/JaPdHlwYUW",
+      "source": "LegAnkle77073",
+      "post_url": "https://x.com/LegAnkle77073/status/2044045654914412930",
+      "decision": "drop",
+      "reason": "duplicate_normalized_content"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T20:34:24+00:00",
+      "title": "",
+      "content": "I really dgaf what you guys are talking about and who’s a cheater or not my plantar fasciitis is flaring up and that is a true testament to my signs of aging cause it’s sure not in this face 🙏🏼",
+      "source": "marriedilya",
+      "post_url": "https://x.com/marriedilya/status/2044877087102627991",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T20:07:15+00:00",
+      "title": "",
+      "content": "I enjoyed my most recent walk too much now I have matching blisters on both of my swollen feet but I tell myself they look like stigmata and that’s kinda metal so it’s okay",
+      "source": "blubadoobbb",
+      "post_url": "https://x.com/blubadoobbb/status/2044870254954950826",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-17T19:24:38+00:00",
+      "title": "",
+      "content": "Expecting me to go there with my goddamn money, no car, swollen feet, going back and forth. For real?",
+      "source": "svrxhm",
+      "post_url": "https://x.com/svrxhm/status/2045221920933847429",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T18:25:53+00:00",
+      "title": "",
+      "content": "The plantar fasciitis… relatable! 👍🏼✨🫶🏻 https://t.co/3ROxzb1c6B",
+      "source": "rubizarre",
+      "post_url": "https://x.com/rubizarre/status/2044844747781513321",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T14:16:57+00:00",
+      "title": "",
+      "content": "Things I can attribute to the menopause this week. Dry skin, itchy scalp, swollen feet, trying to pay for my shopping in Boots without actually retrieving bank card from my wallet &amp; instead just blindly tapping my pin in.",
+      "source": "JR_Dickenson",
+      "post_url": "https://x.com/JR_Dickenson/status/2044782099350110627",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-16T03:05:45+00:00",
+      "title": "",
+      "content": "My entire body hurts 😭 between the gym &amp; standing all day at work.",
+      "source": "__michaelamc",
+      "post_url": "https://x.com/__michaelamc/status/2044613187379544448",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-21T15:19:24+00:00",
+      "title": "",
+      "content": "got plantar fasciitis and taping rlly helped but i guess i can't be doing any fucking walking now??",
+      "source": "wilblargh",
+      "post_url": "https://x.com/wilblargh/status/2046609755494404140",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-20T18:51:11+00:00",
+      "title": "",
+      "content": "Living with fibro and juvenile arthritis has affected my gait since childhood, especially with a leg-length difference—no wonder my plantar fasciitis is chronic. I also suspect I’m neurodivergent, even without a formal diagnosis in my 50s. My son, who… https://t.co/x9Dx0NWCVl https://t.co/Cn8exipNct",
+      "source": "halluxcare",
+      "post_url": "https://x.com/halluxcare/status/2046300665056788651",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-17T17:40:32+00:00",
+      "title": "",
+      "content": "I have a running joke that every medical problem I have only happens once.. like somehow every issue is completely new every. single. time.today it's ✨ plantar fasciitis ✨",
+      "source": "Mercy_Dearest",
+      "post_url": "https://x.com/Mercy_Dearest/status/2045195721297514908",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "platform": "x",
+      "posted_date": "2026-04-15T09:05:31+00:00",
+      "title": "",
+      "content": "Has anyone used kinesiology tape for plantar fasciitis and if yes, which tape? I got Boldfit but yaako feel it’s not great + not sticking too well.",
+      "source": "Dhichkyaaon",
+      "post_url": "https://x.com/Dhichkyaaon/status/2044341338125341002",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    }
+  ]
+}

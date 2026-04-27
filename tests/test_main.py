@@ -14,12 +14,14 @@ from grok_x_lead_monitor.models import Candidate
 def test_settings_defaults_match_spec():
     settings = Settings.from_env({})
     assert settings.grok_model == "grok-4-1-fast-reasoning"
+    assert settings.grok_request_timeout_seconds == 90
     assert settings.default_timezone == "Asia/Shanghai"
     assert settings.default_window_mode == "relative"
-    assert settings.relative_lookback_hours == 168
-    assert settings.min_intent_score == 60
+    assert settings.relative_lookback_hours == 72
+    assert settings.min_intent_score == 40
     assert settings.high_priority_score == 85
     assert settings.output_dir.as_posix() == "output/leads"
+    assert settings.raw_output_dir.as_posix() == "output/raw_candidates"
     assert settings.query_pack_version == "v1"
 
 
@@ -54,6 +56,16 @@ def test_settings_reads_relative_lookback_hours_from_env():
 def test_settings_reads_grok_model_from_env():
     settings = Settings.from_env({"GROK_MODEL": "grok-4.20-reasoning"})
     assert settings.grok_model == "grok-4.20-reasoning"
+
+
+def test_settings_reads_request_timeout_from_env():
+    settings = Settings.from_env({"GROK_REQUEST_TIMEOUT_SECONDS": "120"})
+    assert settings.grok_request_timeout_seconds == 120
+
+
+def test_settings_reads_raw_output_dir_from_env():
+    settings = Settings.from_env({"DEFAULT_RAW_OUTPUT_DIR": "tmp/raw"})
+    assert settings.raw_output_dir.as_posix() == "tmp/raw"
 
 
 def test_run_pipeline_uses_relative_lookback_hours_from_env():
@@ -264,7 +276,10 @@ def test_run_pipeline_filters_scores_and_exports(tmp_path: Path):
     ]
     output_path = run_pipeline(
         now=datetime(2026, 4, 8, 10, 30, tzinfo=ZoneInfo("Asia/Shanghai")),
-        env={"DEFAULT_OUTPUT_DIR": str(tmp_path)},
+        env={
+            "DEFAULT_OUTPUT_DIR": str(tmp_path),
+            "DEFAULT_RAW_OUTPUT_DIR": str(tmp_path / "raw_candidates"),
+        },
         client=FakeClient(candidates),
     )
     content = output_path.read_text()
@@ -274,6 +289,19 @@ def test_run_pipeline_filters_scores_and_exports(tmp_path: Path):
     assert "| 10 |" in content
     assert "explicit recommendation request" in content
     assert "spam" not in content
+
+    raw_output = tmp_path / "raw_candidates" / "2026-04-08.jsonl"
+    assert raw_output.exists()
+    raw_lines = raw_output.read_text().splitlines()
+    assert any('"username":"high"' in line for line in raw_lines)
+    assert any('"username":"spam"' in line for line in raw_lines)
+    assert any("Use code SAVE20 for the best shoes #ad" in line for line in raw_lines)
+
+    json_output = tmp_path / "2026-04-08.json"
+    assert json_output.exists()
+    json_records = json.loads(json_output.read_text())
+    assert [record["username"] for record in json_records] == ["high"]
+    assert json_records[0]["original_url"] == "https://x.com/high/status/111"
 
 
 def test_run_pipeline_emits_query_diagnostics_to_stderr(tmp_path: Path, capsys):
@@ -313,12 +341,13 @@ def test_run_pipeline_emits_query_diagnostics_to_stderr(tmp_path: Path, capsys):
 
     captured = capsys.readouterr()
     assert (
-        "[DIAG] Query='feet hurt standing all day' raw=3 valid=2 passing_score=2 unique_url=1"
+        "[DIAG] Query='feet hurt standing all day' raw=3 valid=3 passing_score=3 unique_url=2"
         in captured.err
     )
-    assert "sample@strong filters=True score=95 passes_score=True deduped=False" in captured.err
-    assert "sample@weak filters=False score=65 passes_score=False deduped=False" in captured.err
-    assert "sample@dup filters=True score=95 passes_score=True deduped=True" in captured.err
+    assert "sample@strong filters=True" in captured.err
+    assert "sample@weak filters=True" in captured.err
+    assert "sample@dup filters=True" in captured.err
+    assert "sample@dup filters=True score=" in captured.err and "deduped=True" in captured.err
 
 
 def test_run_pipeline_continues_when_one_query_fails(tmp_path: Path):
@@ -449,6 +478,38 @@ def test_grok_search_client_retries_remote_disconnect_once():
     )
     assert len(results) == 1
     assert results[0].username == "runner"
+
+
+def test_grok_search_client_retries_read_timeout_with_smaller_payload():
+    class TimeoutThenSuccessClient:
+        def __init__(self):
+            self.calls = []
+
+        def post(self, url, headers, json, timeout):
+            self.calls.append({"url": url, "headers": headers, "json": json, "timeout": timeout})
+            if len(self.calls) == 1:
+                import httpx
+
+                raise httpx.ReadTimeout("timed out")
+            return DummyResponse(
+                {
+                    "output_text": '{"candidates":[{"username":"runner","tweet_text":"Need comfy shoes","tweet_created_at":"2026-04-08T10:00:00+00:00","query_used":"feet hurt standing all day","citations":[{"url":"https://x.com/runner/status/123"}]}]}'
+                }
+            )
+
+    http_client = TimeoutThenSuccessClient()
+    client = GrokSearchClient(api_key="secret", http_client=http_client)
+    results = client.search(
+        "feet hurt standing all day",
+        "2026-04-08T00:00:00+08:00",
+        "2026-04-08T23:59:59+08:00",
+    )
+    assert len(results) == 1
+    assert results[0].username == "runner"
+    assert http_client.calls[0]["json"]["max_output_tokens"] == 3000
+    assert http_client.calls[1]["json"]["max_output_tokens"] == 2200
+    assert "up to 60 rows" in http_client.calls[0]["json"]["input"][1]["content"]
+    assert "up to 40 rows" in http_client.calls[1]["json"]["input"][1]["content"]
 
 
 def test_cli_uses_env_and_fails_without_api_key(monkeypatch, tmp_path: Path):

@@ -15,20 +15,26 @@ class Settings:
     default_window_mode: str
     relative_lookback_hours: int
     output_dir: Path
+    raw_output_dir: Path
+    grok_request_timeout_seconds: int
     min_intent_score: int
     high_priority_score: int
     query_pack_version: str
 
     @classmethod
     def from_env(cls, env: Mapping[str, str]) -> "Settings":
+        output_dir = Path(env.get("DEFAULT_OUTPUT_DIR", "output/leads"))
+        raw_output_dir = Path(env.get("DEFAULT_RAW_OUTPUT_DIR", str(output_dir.parent / "raw_candidates")))
         return cls(
             grok_api_key=env.get("GROK_API_KEY"),
             grok_model=env.get("GROK_MODEL", "grok-4-1-fast-reasoning"),
             default_timezone=env.get("DEFAULT_TIMEZONE", "Asia/Shanghai"),
             default_window_mode=env.get("DEFAULT_WINDOW_MODE", "relative"),
-            relative_lookback_hours=int(env.get("RELATIVE_LOOKBACK_HOURS", "168")),
-            output_dir=Path(env.get("DEFAULT_OUTPUT_DIR", "output/leads")),
-            min_intent_score=int(env.get("MIN_INTENT_SCORE", "60")),
+            relative_lookback_hours=int(env.get("RELATIVE_LOOKBACK_HOURS", "72")),
+            output_dir=output_dir,
+            raw_output_dir=raw_output_dir,
+            grok_request_timeout_seconds=int(env.get("GROK_REQUEST_TIMEOUT_SECONDS", "90")),
+            min_intent_score=int(env.get("MIN_INTENT_SCORE", "40")),
             high_priority_score=int(env.get("HIGH_PRIORITY_SCORE", "85")),
             query_pack_version=env.get("QUERY_PACK_VERSION", "v1"),
         )

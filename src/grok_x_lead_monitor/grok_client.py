@@ -14,9 +14,10 @@ from grok_x_lead_monitor.models import Candidate
 
 SYSTEM_PROMPT = (
     "Use x_search as the only live data source. "
-    "Find real human X users with high intent to buy orthopedic or comfort footwear. "
+    "Find real human X users whose posts may relate to footwear comfort, fit, pain, or recommendation needs. "
+    "Prioritize broad recall over strict precision, and include borderline candidates that might still be useful for downstream ranking. "
     "Strictly exclude promotional links, marketing spam, bot posts, competitor brand promotion, news articles, and irrelevant topics such as animal paws. "
-    "Return structured JSON with candidate rows and citation metadata. "
+    "Return structured JSON with candidate rows and citation metadata, preserving original tweet text for downstream analysis. "
     "Do not fabricate users or tweets. "
     "Do not keep rows whose URL cannot be verified. "
     "Citation metadata must be included for every retained candidate."
@@ -28,6 +29,8 @@ def build_grok_payload(
     start_iso: str,
     end_iso: str,
     model: str = "grok-4-1-fast-reasoning",
+    max_rows: int = 60,
+    max_output_tokens: int = 3000,
 ) -> dict[str, Any]:
     from_date = start_iso[:10]
     to_date = end_iso[:10]
@@ -41,12 +44,13 @@ def build_grok_payload(
             {
                 "role": "user",
                 "content": (
-                    "Search X for consumer footwear-intent leads in the last 7 days.\n"
+                    "Search X for footwear-related consumer posts in the last 7 days.\n"
                     f"Query: {query}\n"
                     f"Window: {start_iso} to {end_iso}\n"
-                    "Focus on users complaining shoes hurt, asking for wide shoes, plantar fasciitis recommendations, or standing all day shoe help.\n"
-                    "Return JSON with a top-level candidates array containing up to 100 rows.\n"
-                    "Each candidate row must include: username, tweet_text, tweet_created_at, query_used, pain_point_tag, intent_score_1_to_10, citations."
+                    "Focus on broad recall around pain, fit issues, and recommendation seeking. Include uncertain but relevant borderline posts.\n"
+                    "Do not pre-rank by commercial value; this pass is for data collection.\n"
+                    f"Return JSON with a top-level candidates array containing up to {max_rows} rows.\n"
+                    "Each candidate row must include: username, tweet_text, tweet_created_at, query_used, citations."
                 ),
             },
         ],
@@ -59,7 +63,7 @@ def build_grok_payload(
         ],
         "text": {"format": {"type": "json_object"}},
         "temperature": 0,
-        "max_output_tokens": 8000,
+        "max_output_tokens": max_output_tokens,
     }
 
 
@@ -160,14 +164,33 @@ class GrokSearchClient:
         api_key: str,
         http_client: httpx.Client | None = None,
         model: str = "grok-4-1-fast-reasoning",
+        request_timeout_seconds: float = 90.0,
     ):
         self.api_key = api_key
         self._http_client = http_client or httpx.Client()
         self.model = model
+        self.request_timeout_seconds = request_timeout_seconds
+
+    @staticmethod
+    def _attempt_params(attempt: int) -> tuple[int, int]:
+        if attempt <= 0:
+            return 60, 3000
+        if attempt == 1:
+            return 40, 2200
+        return 25, 1400
 
     def search(self, query: str, start_iso: str, end_iso: str) -> list[Candidate]:
         last_exc: Exception | None = None
         for attempt in range(3):
+            max_rows, max_output_tokens = self._attempt_params(attempt)
+            payload = build_grok_payload(
+                query,
+                start_iso,
+                end_iso,
+                model=self.model,
+                max_rows=max_rows,
+                max_output_tokens=max_output_tokens,
+            )
             try:
                 response = self._http_client.post(
                     "https://api.x.ai/v1/responses",
@@ -177,8 +200,13 @@ class GrokSearchClient:
                         # Avoid flaky keep-alive connections in some proxy/network paths.
                         "Connection": "close",
                     },
-                    json=build_grok_payload(query, start_iso, end_iso, model=self.model),
-                    timeout=45.0,
+                    json=payload,
+                    timeout=httpx.Timeout(
+                        connect=15.0,
+                        write=20.0,
+                        read=self.request_timeout_seconds,
+                        pool=15.0,
+                    ),
                 )
                 status_code = getattr(response, "status_code", 200)
                 if status_code >= 500:

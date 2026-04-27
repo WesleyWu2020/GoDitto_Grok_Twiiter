@@ -8,10 +8,10 @@ from zoneinfo import ZoneInfo
 
 from grok_x_lead_monitor.config import Settings, resolve_window
 from grok_x_lead_monitor.diagnostics import diagnose_query_results, format_query_diagnostics
-from grok_x_lead_monitor.exporter import write_markdown_report
+from grok_x_lead_monitor.exporter import write_json_report, write_markdown_report, write_raw_candidates_jsonl
 from grok_x_lead_monitor.filters import is_valid_candidate
 from grok_x_lead_monitor.grok_client import GrokSearchClient
-from grok_x_lead_monitor.models import LeadRecord
+from grok_x_lead_monitor.models import LeadRecord, RawCandidateRecord
 from grok_x_lead_monitor.query_builder import build_query_pack
 from grok_x_lead_monitor.scoring import infer_pain_point_tag, score_candidate, to_intent_score_10
 from grok_x_lead_monitor.url_resolver import resolve_original_url
@@ -41,7 +41,11 @@ def _build_client(settings: Settings, client: GrokSearchClientProtocol | None) -
         return client
     if not settings.grok_api_key:
         raise ValueError("GROK_API_KEY is required when no client is injected")
-    return GrokSearchClient(api_key=settings.grok_api_key, model=settings.grok_model)
+    return GrokSearchClient(
+        api_key=settings.grok_api_key,
+        model=settings.grok_model,
+        request_timeout_seconds=settings.grok_request_timeout_seconds,
+    )
 
 
 def run_pipeline(
@@ -64,8 +68,10 @@ def run_pipeline(
     )
     query_specs = build_query_pack(settings.query_pack_version)
 
-    seen_urls: set[str] = set()
+    seen_lead_urls: set[str] = set()
+    seen_raw_urls: set[str] = set()
     leads: list[LeadRecord] = []
+    raw_candidates: list[RawCandidateRecord] = []
     for query_spec in query_specs:
         try:
             candidates = client.search(query_spec.query, start.isoformat(), end.isoformat()) or []
@@ -82,15 +88,27 @@ def run_pipeline(
         print(format_query_diagnostics(diagnostic_report), file=sys.stderr)
 
         for candidate in candidates:
+            original_url = resolve_original_url(candidate.citations)
+            if original_url and original_url not in seen_raw_urls:
+                seen_raw_urls.add(original_url)
+                raw_candidates.append(
+                    RawCandidateRecord(
+                        username=candidate.username,
+                        tweet_text=candidate.tweet_text,
+                        tweet_created_at=candidate.tweet_created_at,
+                        query_used=candidate.query_used,
+                        original_url=original_url,
+                    )
+                )
+
             if not is_valid_candidate(candidate):
                 continue
             score, _, summary, reason = score_candidate(candidate, high_threshold=settings.high_priority_score)
             if score < settings.min_intent_score:
                 continue
-            original_url = resolve_original_url(candidate.citations)
-            if not original_url or original_url in seen_urls:
+            if not original_url or original_url in seen_lead_urls:
                 continue
-            seen_urls.add(original_url)
+            seen_lead_urls.add(original_url)
             leads.append(
                 LeadRecord(
                     username=candidate.username,
@@ -103,6 +121,8 @@ def run_pipeline(
                 )
             )
 
+    write_raw_candidates_jsonl(settings.raw_output_dir, label, raw_candidates)
+    write_json_report(settings.output_dir, label, leads)
     return write_markdown_report(settings.output_dir, label, leads)
 
 

@@ -1,0 +1,246 @@
+{
+  "source_file": "output/raw_candidates/2026-04-22.jsonl",
+  "prompt_file": "docs/runbooks/2026-04-22-leaf-filter-prompt.md",
+  "summary": {
+    "total_rows": 26,
+    "kept_rows": 23,
+    "dropped_rows": 3,
+    "duplicate_rows": 0
+  },
+  "records": [
+    {
+      "username": "@inglewood_T",
+      "tweet_text": "I know yall feet hurt   Them mfs feel like steel toe",
+      "tweet_created_at": "2026-04-21T23:51:53+00:00",
+      "query_used": "(\"feet hurt\" OR \"foot pain\" OR \"shoes hurt\" OR \"standing all day\") since:2026-04-15 until:2026-04-22 -filter:links -buy -sale",
+      "original_url": "https://x.com/i/status/2046713777849294938",
+      "decision": "drop",
+      "reason": "medical_without_shoe_intent"
+    },
+    {
+      "username": "@Leslies_Logic",
+      "tweet_text": "My feet hurt looking at her... 👠",
+      "tweet_created_at": "2026-04-21T23:32:27+00:00",
+      "query_used": "(\"feet hurt\" OR \"foot pain\" OR \"shoes hurt\" OR \"standing all day\") since:2026-04-15 until:2026-04-22 -filter:links -buy -sale",
+      "original_url": "https://x.com/i/status/2045554859412271418",
+      "decision": "drop",
+      "reason": "observer_commentary"
+    },
+    {
+      "username": "@amandanvc",
+      "tweet_text": "I’ve been practicing my catwalk and horsewalk in particular literally since I could walk. I had a long ass hallway in my apt in Dyckman and I would put on my mom’s heels and just go up and down until my feet hurt. I have my walk down to a science and it doesn’t even matter😭",
+      "tweet_created_at": "2026-04-21T23:21:25+00:00",
+      "query_used": "(\"feet hurt\" OR \"foot pain\" OR \"shoes hurt\" OR \"standing all day\") since:2026-04-15 until:2026-04-22 -filter:links -buy -sale",
+      "original_url": "https://x.com/i/status/2046228528820076711",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@SageStarwind",
+      "tweet_text": "When they give me uppies and pat my head and princess carry me because I have worn the uncomfortable shoes again because they are really cute.",
+      "tweet_created_at": "2026-04-21T17:39:08+00:00",
+      "query_used": "(\"sore feet\" OR \"blisters shoes\" OR \"tight shoes\" OR \"uncomfortable shoes\") since:2026-04-15 until:2026-04-22 -filter:links -promo",
+      "original_url": "https://x.com/i/status/2046725410688585951",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@imsimran",
+      "tweet_text": "Bhai why ye ladies log always insist on wearing the most uncomfortable shoes. Then later complaint they can't walk more 😭",
+      "tweet_created_at": "2026-04-21T13:38:01+00:00",
+      "query_used": "(\"sore feet\" OR \"blisters shoes\" OR \"tight shoes\" OR \"uncomfortable shoes\") since:2026-04-15 until:2026-04-22 -filter:links -promo",
+      "original_url": "https://x.com/i/status/2045345549319344210",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@Teachersunite24",
+      "tweet_text": "To be honest, I don't see this as a big issue, all pupils and staff should be allowed to wear \"sportswear\". There isn't a need for outdated suits, for male staff having to wear seriously uncomfortable shoes, ties. It doesn't add any value",
+      "tweet_created_at": "2026-04-21T05:58:19+00:00",
+      "query_used": "(\"sore feet\" OR \"blisters shoes\" OR \"tight shoes\" OR \"uncomfortable shoes\") since:2026-04-15 until:2026-04-22 -filter:links -promo",
+      "original_url": "https://x.com/i/status/2046605151805604018",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@chrrywllflwr",
+      "tweet_text": "and to prove I'm not being gate keeping in a snobby way, I wanna add on this:\n1. I don't have disrespect towards dance groups at all. I mean, come on, why would I?\n2. cosplay performance live is HARD. You need to wear a wig, costume, uncomfortable shoes. I respect it.",
+      "tweet_created_at": "2026-04-21T03:33:21+00:00",
+      "query_used": "(\"sore feet\" OR \"blisters shoes\" OR \"tight shoes\" OR \"uncomfortable shoes\") since:2026-04-15 until:2026-04-22 -filter:links -promo",
+      "original_url": "https://x.com/i/status/2046728975418872237",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@heartsdesire456",
+      "tweet_text": "GUYS! My diabetes orthopedic shoes came in hahahaha.\n\nIt's funny because I'm not diabetic, elderly, nor do I have medical issues that would cause need for orthopedics.\n\nI just have fucking had it with uncomfortable shoes. I am embracing comfy feet at work even if I look doofy.",
+      "tweet_created_at": "2026-04-21T03:22:42+00:00",
+      "query_used": "(\"sore feet\" OR \"blisters shoes\" OR \"tight shoes\" OR \"uncomfortable shoes\") since:2026-04-15 until:2026-04-22 -filter:links -promo",
+      "original_url": "https://x.com/i/status/2046662866011324736",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@RahkeshAsmodai",
+      "tweet_text": "Can’t believe no one’s said HOKA skyflows. Highly recommend, super comfortable shoe. Maybe a little heavier, but durable and great for everyday use. Breathable as well, haven’t had issues with my feet heating up.\n\nI’d recommend using it as a daily trainer but not as your daily shoe - it’s a little too curved and maybe not the healthiest long-term as a walking shoe (but I’ve worn it as a walking shoe for months, no real stress, just as best practice)",
+      "tweet_created_at": "2026-04-21T01:39:45+00:00",
+      "query_used": "shoes that don't hurt feet when standing long hours recommendations for pain relief",
+      "original_url": "https://x.com/i/status/2046699102658822245",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@bookdreamer8",
+      "tweet_text": "My only thought on her outfit, as a fellow teacher, is: \"Girl, your feet are going to hurt so bad at the end of the day with those heels...\"",
+      "tweet_created_at": "2026-04-20T23:50:45+00:00",
+      "query_used": "(\"work shoes pain\" OR \"recommend shoes standing\" OR \"best shoes for standing\") since:2026-04-15 until:2026-04-22 -ad -shop",
+      "original_url": "https://x.com/i/status/2046141477080928413",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@joy_ogonna",
+      "tweet_text": "The Rainy Umbrella!\n\nIt was a heavy rainy evening in the city. Ada, a 28-year-old teacher, was rushing home after a long day at school. Her feet hurt, her bag felt heavy, and the rain was pouring so hard that her small umbrella could barely keep her dry. \n\nAt the bus stop, she saw a young girl, standing alone under the shelter. The girl had no umbrella and was getting soaked. Her school uniform was wet, and she looked cold and worried.Ada’s heart felt soft. She thought about her own little sister back home and how she would feel if she was out in this rain alone.\nWithout thinking much, Ada walked over and held her umbrella over the girl too.“Come, stand closer,” Ada said with a kind smile. “We can share.”The little girl looked up with big surprised eyes. “Thank you, Aunty.” They stood together quietly as the rain fell.\n\n The umbrella was small, so both of them got a little wet on one side, but neither complained. The girl told Ada her name was Nneka and that her mum was late picking her up because of the rain.\nWhen the bus finally came, Ada made sure Nneka got on safely.\n\n As the girl stepped inside, she turned back and gave Ada a big, bright smile. “You are very kind,” Nneka said. “My mum always says kind people bring their own sunshine on rainy days.” Ada smiled back, even though she was now quite wet. \nShe watched the bus drive away, then continued her own journey home.\n\nThat night, as Ada dried her hair and drank a warm cup of tea, she felt lighter inside.\nSharing a small umbrella in the rain didn’t cost her much, but it made the heavy day feel softer. \n\n Sometimes, the little acts of kindness we give away come back to warm our own hearts the most.\n\nFeel free to share your experience on that act of kindness that lightens your heart?",
+      "tweet_created_at": "2026-04-20T18:41:29+00:00",
+      "query_used": "(\"work shoes pain\" OR \"recommend shoes standing\" OR \"best shoes for standing\") since:2026-04-15 until:2026-04-22 -ad -shop",
+      "original_url": "https://x.com/i/status/2046142456123765060",
+      "decision": "drop",
+      "reason": "observer_commentary"
+    },
+    {
+      "username": "@ona_nky",
+      "tweet_text": "My Natural Sciences teacher had similar shoes, but with higher wedges. She always wore them, ALWAYS. One day I just heard someone say, ‘Ona, your face looks like these shoes’ 😭👍🏽 Everyone laughed, I laughed, but it hurt me 😔",
+      "tweet_created_at": "2026-04-20T17:07:44+00:00",
+      "query_used": "(\"work shoes pain\" OR \"recommend shoes standing\" OR \"best shoes for standing\") since:2026-04-15 until:2026-04-22 -ad -shop",
+      "original_url": "https://x.com/i/status/2046182493410210148",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@binniminniinni",
+      "tweet_text": "moisturize a LOT in your day to day, athletic tape + bandaid on your achilles to prevent chafing, athletic tape around the balls of your feet, good quality socks, if you already have blisters apply wound repair or neosporin, GOOD SHOES i cannot emphasize this enough.",
+      "tweet_created_at": "2026-04-20T14:04:33+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046731060482822452",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@dfteach",
+      "tweet_text": "Baby pink - Prom '92\nRed - Homecoming '92\nBlack - Prom '93\n\nI just remember those shoes not lasting long on. They hurt. 🤣 I'm pretty sure I left both proms barefoot.",
+      "tweet_created_at": "2026-04-20T03:28:35+00:00",
+      "query_used": "(\"work shoes pain\" OR \"recommend shoes standing\" OR \"best shoes for standing\") since:2026-04-15 until:2026-04-22 -ad -shop",
+      "original_url": "https://x.com/i/status/2046721918447898816",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@cathy_chess",
+      "tweet_text": "That ice water machine from my shoulder replacement (done at Carson) was a MIRACLE!  I used it for surgery on 4 toes of my right foot (the VA didn’t even have that as a management option!) if you can control swelling, pain is lessened. Don’t drive @MrsDrPublius  crazy, either 😉",
+      "tweet_created_at": "2026-04-19T03:51:11+00:00",
+      "query_used": "(\"work shoes pain\" OR \"recommend shoes standing\" OR \"best shoes for standing\") since:2026-04-15 until:2026-04-22 -ad -shop",
+      "original_url": "https://x.com/i/status/2046429393380094031",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@SherBear7372",
+      "tweet_text": "Birkenstocks are my go to and I have worn them all over the world! I have plantar fasciitis and they are the only shoes that don’t hurt my feet, easy to get on and breathable (I only buy the real leather ones; Mayari model is my favorite!). Podiatrist recommended them years ago!",
+      "tweet_created_at": "2026-04-18T23:47:18+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2045366195705045439",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@thewormwoman",
+      "tweet_text": "Anything Vionic, Birkenstocks (not always breathable if closed toe), Ecco if u want a sandal or nice leather shoe, Taos, or get yourself a fun funky shoe and add some inserts (Powerstep is a good brand but do NOT use anything Dr Scholls) -i work at a specialty shoe store",
+      "tweet_created_at": "2026-04-18T22:15:55+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2045472068045611326",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@Ms_MerryThought",
+      "tweet_text": "Take a look at FitFlops.  My work shoes from there are the best, so comfortable all day on my feet.  I have a pair of walking trainers which are very comfortable.",
+      "tweet_created_at": "2026-04-18T21:21:44+00:00",
+      "query_used": "(nurse OR teacher OR \"retail worker\" OR barista OR waiter) (feet OR shoes OR foot) (hurt OR pain OR sore) since:2026-04-15 until:2026-04-22 -filter:news",
+      "original_url": "https://x.com/i/status/2046403483440759046",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@beth_philley",
+      "tweet_text": "I also have plantar fasciitis & just bought a pair of shoes from an outfit called OrthoFeet on the internet. So far so good. They come with inserts you can try in different combos until it makes your foot feel better. Free shipping/returns & 60-day trial. https://www.orthofeet.com/",
+      "tweet_created_at": "2026-04-18T17:27:37+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046142761234243704",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@MeganKayHumble",
+      "tweet_text": "I’m a mail carrier, and I’ve had to have surgery for nerve damage in my feet.  I second the Brooks and PowerStep insoles.\nI also bought some Skechers Jill sandals, and these are some of the only shoes, besides Brooks, that I can wear for a longer period of time.",
+      "tweet_created_at": "2026-04-18T11:58:38+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046141688931062262",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@vanathispathi",
+      "tweet_text": "Skechers Arch Fit is the magic shoe for me. For the first time ever I did all the extra walking on my vacation last week without any pain. Obviously not a shoe expert and not a man, but if you are a woman who typically experiences a lot of pain on long walks this might work",
+      "tweet_created_at": "2026-04-18T03:35:54+00:00",
+      "query_used": "shoes that don't hurt feet when standing long hours recommendations for pain relief",
+      "original_url": "https://x.com/i/status/2046738727373074441",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@ojeda_rj",
+      "tweet_text": "So a few options I would recommend without being able to measure your foot and instep:\nMax cushion:\nHOKA Bondi 9 is a ton of cushion and naturally runs wider.\nBrooks Ghost Max 3. Depending on instep may not work \nMedium cushion:\nNB 880 v15\nAsics Gel Nimbus",
+      "tweet_created_at": "2026-04-17T19:38:07+00:00",
+      "query_used": "shoes that don't hurt feet when standing long hours recommendations for pain relief",
+      "original_url": "https://x.com/i/status/2046370700408304073",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@IsobelSottoVoce",
+      "tweet_text": "Try insoles (doctor usually recommends suitable brands) AND high top sneakers. Like above the ankle old school high top!",
+      "tweet_created_at": "2026-04-17T16:43:11+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046691634784727306",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@nursebinky",
+      "tweet_text": "Even worn in shoes give me horrible blisters (nurse so my shoes get wet in the shower and I'm in them for 12 hours) Coles brand is the cheapest and best!",
+      "tweet_created_at": "2026-04-17T12:03:20+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046432073821696244",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@Batflake",
+      "tweet_text": "Walk around in stilettos for a couple of hours, then see if your athletic abilities are hampered. You will have an aching back, aching legs and feet, and blisters. Athletes should be in proper supportive footwear only in the immediate run up to competition 🙈",
+      "tweet_created_at": "2026-04-17T07:54:57+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046696552522043664",
+      "decision": "keep",
+      "reason": "default_keep"
+    },
+    {
+      "username": "@strwberyfarmer",
+      "tweet_text": "No no. Not college student. Been working for over a decade now. Used to drive to work earlier, now very short distance, but I think damage was already set in motion. \nI was using Birkenstock footwear also in between, and I find that it aggravates my pain, so v.rarely take it out",
+      "tweet_created_at": "2026-04-16T17:23:14+00:00",
+      "query_used": "feet hurt standing all day shoes footwear sneakers boots work pain fit uncomfortable tight blisters recommendations",
+      "original_url": "https://x.com/i/status/2046068486376477028",
+      "decision": "keep",
+      "reason": "default_keep"
+    }
+  ]
+}

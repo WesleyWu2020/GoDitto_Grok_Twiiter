@@ -31,3 +31,12 @@ class LeadRecord:
     intent_reason: str
     original_url: str
     tweet_created_at: datetime
+
+
+@dataclass(frozen=True)
+class RawCandidateRecord:
+    username: str
+    tweet_text: str
+    tweet_created_at: datetime
+    query_used: str
+    original_url: str

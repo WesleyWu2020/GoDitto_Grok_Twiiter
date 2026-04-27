@@ -28,9 +28,9 @@
   - 只使用传入的 `env`，不会读取 `.env`
 
 ## 当前默认策略
-- 默认时间窗为最近 7 天：
+- 默认时间窗为最近 3 天：
   - `DEFAULT_WINDOW_MODE=relative`
-  - `RELATIVE_LOOKBACK_HOURS=168`
+  - `RELATIVE_LOOKBACK_HOURS=72`
 - 导出列为：
   - `User Handle (@username)`
   - `Tweet Content Summary`
