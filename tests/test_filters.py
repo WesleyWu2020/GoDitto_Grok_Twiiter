@@ -38,3 +38,40 @@ def test_filter_keeps_authentic_consumer_request():
 def test_filter_keeps_question_style_request_for_target_customer():
     candidate = build_candidate("Anyone have suggestions on best walking shoes for wide feet that will make walking easier?")
     assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_request_style_without_explicit_first_person():
+    candidate = build_candidate("Best shoes for plantar fasciitis? Any recs for standing all day nursing shifts?")
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_posts_with_moderate_hashtags_when_need_is_clear():
+    candidate = build_candidate(
+        "Need better shoes for foot pain and standing all day. #nursing #hospital #plantar #shoehelp #advice"
+    )
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_broad_relevance_without_first_person():
+    candidate = build_candidate("Severe foot pain after long shifts. What shoes work for plantar fasciitis?")
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_bunion_request():
+    candidate = build_candidate("Need relief for bunions, any recs for a wide toe box fit?")
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_diabetic_or_swelling_need():
+    candidate = build_candidate("Need diabetic-friendly options for swelling and edema after shifts.")
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_keeps_slip_resistant_work_need():
+    candidate = build_candidate("Need non slip pair for kitchen shifts on oily floors.")
+    assert is_valid_candidate(candidate) is True
+
+
+def test_filter_rejects_generic_medical_commentary_without_buyer_signal():
+    candidate = build_candidate("Article: diabetic foot swelling is rising and people are talking about it.")
+    assert is_valid_candidate(candidate) is False

@@ -10,6 +10,11 @@ QUERY_PACKS: dict[str, list[QuerySpec]] = {
         QuerySpec(query="need narrow fit shoes for foot pain", intent_theme="narrow_fit"),
         QuerySpec(query="my feet are killing me at work need better shoes", intent_theme="work_pain"),
         QuerySpec(query="walking all day shoes recommendation", intent_theme="replacement_intent"),
+        QuerySpec(query="best extra wide shoes for foot pain", intent_theme="extra_wide_fit"),
+        QuerySpec(query="wide toe box shoes for bunions", intent_theme="bunions"),
+        QuerySpec(query="diabetic shoes recommendations", intent_theme="diabetic_footwear"),
+        QuerySpec(query="swollen feet shoes", intent_theme="swollen_feet"),
+        QuerySpec(query="non slip work shoes foot pain", intent_theme="slip_resistant_work"),
     ]
 }
 

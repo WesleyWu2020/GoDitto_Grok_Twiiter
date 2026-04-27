@@ -49,13 +49,35 @@ def score_candidate(candidate: Candidate, high_threshold: int = 85) -> tuple[int
         score += 25
         reasons.append("strong foot pain")
 
+    discomfort_signals = _text_has_any(
+        text,
+        (
+            "uncomfortable",
+            "blister",
+            "blisters",
+            "sore feet",
+            "aching feet",
+            "pain when i walk",
+            "pain while walking",
+            "feel pain when i walk",
+        ),
+    )
+    if discomfort_signals:
+        score += 15
+        reasons.append("footwear discomfort")
+
     target_condition_hits = 0
     target_condition_signals = (
         ("plantar fasciitis", ("plantar fasciitis", "plantar"), 20),
-        ("wide feet", ("wide feet", "wide foot", "extra wide", "2e", "4e"), 20),
+        ("wide feet", ("wide feet", "wide foot", "extra wide", "2e", "4e", "6e", "wide toe box"), 20),
         ("narrow fit", ("narrow feet", "narrow foot", "narrow fit"), 20),
         ("standing all day", ("standing all day", "all day standing", "every shift"), 20),
-        ("walking all day", ("walking all day", "walk all day"), 10),
+        ("walking all day", ("walking all day", "walk all day"), 15),
+        ("bunions", ("bunion", "bunions", "toe pain", "toes cramped"), 20),
+        ("flat feet", ("flat feet", "arch support"), 15),
+        ("diabetic / swelling", ("diabetic", "diabetic shoes", "swollen feet", "foot swelling", "edema"), 20),
+        ("work footwear", ("non slip", "slip resistant", "oil resistant", "steel toe"), 15),
+        ("high instep", ("high instep",), 15),
     )
     for label, phrases, weight in target_condition_signals:
         if _text_has_any(text, phrases):
@@ -75,7 +97,13 @@ def score_candidate(candidate: Candidate, high_threshold: int = 85) -> tuple[int
             "best shoes",
             "best walking shoes",
             "looking for shoes",
+            "looking for wide shoes",
             "need shoes",
+            "need extra wide shoes",
+            "need work shoes",
+            "need diabetic shoes",
+            "need non slip work shoes",
+            "what shoes help",
             "anyone have suggestions",
             "anyone have recs",
             "what are some good",
@@ -100,6 +128,9 @@ def score_candidate(candidate: Candidate, high_threshold: int = 85) -> tuple[int
             "not helping",
             "never fit right",
             "don't fit right",
+            "uncomfortable",
+            "blister",
+            "blisters",
         ),
     )
     if dissatisfaction:
@@ -116,12 +147,40 @@ def score_candidate(candidate: Candidate, high_threshold: int = 85) -> tuple[int
         score += 5
         reasons.append("urgent timing")
 
+    footwear_context = _text_has_any(
+        text,
+        (
+            "shoe",
+            "shoes",
+            "sneaker",
+            "sneakers",
+            "footwear",
+            "insoles",
+            "arch support",
+        ),
+    )
+    if footwear_context:
+        score += 10
+        reasons.append("footwear context")
+
     if pain_signals and explicit_buying_intent:
         score += 25
     elif target_condition_hits and explicit_buying_intent:
         score += 10
     elif target_condition_hits >= 2 and dissatisfaction:
         score += 15
+    elif target_condition_hits and discomfort_signals:
+        score += 10
+
+    if _text_has_any(text, ("diabetic", "swollen feet", "foot swelling", "edema")) and explicit_buying_intent:
+        score += 10
+        reasons.append("medical footwear need with buying intent")
+
+    if _text_has_any(text, ("wide feet", "extra wide", "4e", "6e", "wide toe box")) and _text_has_any(
+        text, ("non slip", "slip resistant", "steel toe", "work", "shift")
+    ):
+        score += 10
+        reasons.append("fit plus work-shoe need")
 
     score = max(0, min(100, score))
 

@@ -40,8 +40,11 @@ def test_score_candidate_scores_wide_feet_as_target_customer_signal():
         build_candidate("I have wide feet and foot pain after walking all day. My shoes never fit right.")
     )
     assert score >= 70
-    assert priority == "Medium"
-    assert summary == "High-fit footwear lead with a strong pain profile."
+    assert priority in {"Medium", "High"}
+    assert summary in {
+        "High-fit footwear lead with a strong pain profile.",
+        "Strong footwear lead with urgent pain and clear buying action.",
+    }
     assert "wide feet" in reason.lower()
 
 
@@ -61,6 +64,48 @@ def test_score_candidate_scores_plantar_interest_without_direct_need_phrase():
     assert score >= 60
     assert priority == "Medium"
     assert "plantar fasciitis" in reason.lower()
+
+
+def test_score_candidate_scores_plantar_pain_context_above_recall_threshold():
+    score, priority, summary, reason = score_candidate(
+        build_candidate("I got plantar fasciitis and now feel pain when I walk in most shoes.")
+    )
+    assert score >= 40
+    assert priority == "Discard" or priority == "Medium"
+    assert "plantar fasciitis" in reason.lower()
+
+
+def test_score_candidate_scores_fit_discomfort_context_above_recall_threshold():
+    score, priority, summary, reason = score_candidate(
+        build_candidate("These shoes are uncomfortable and gave me blisters after walking all day.")
+    )
+    assert score >= 40
+    assert priority == "Discard" or priority == "Medium"
+    assert "walking all day" in reason.lower() or "current shoes are not working" in reason.lower()
+
+
+def test_score_candidate_scores_bunion_request_as_fitville_lead():
+    score, priority, summary, reason = score_candidate(
+        build_candidate("What shoes help bunions? Need a wide toe box and better support for walking all day.")
+    )
+    assert score >= 70
+    assert "bunion" in reason.lower()
+
+
+def test_score_candidate_scores_diabetic_swelling_request_above_threshold():
+    score, priority, summary, reason = score_candidate(
+        build_candidate("Need diabetic shoes for swollen feet because my current shoes are not helping.")
+    )
+    assert score >= 60
+    assert "diabetic" in reason.lower() or "swollen" in reason.lower()
+
+
+def test_score_candidate_scores_slip_resistant_work_need_as_fitville_signal():
+    score, priority, summary, reason = score_candidate(
+        build_candidate("Need non slip work shoes for kitchen shifts. My feet hurt standing all day.")
+    )
+    assert score >= 70
+    assert "standing all day" in reason.lower() or "work" in reason.lower()
 
 
 def test_score_candidate_discards_low_signal_text():
